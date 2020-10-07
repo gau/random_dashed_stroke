@@ -18,7 +18,7 @@ http://www.graphicartsunit.com/
 
 	// Constant
 	const SCRIPT_TITLE = 'ランダム破線';
-	const SCRIPT_VERSION = '0.5.1';
+	const SCRIPT_VERSION = '0.5.2';
 	const UNIT_STRINGS = ['in', 'mm', 'pt', 'pc', 'cm', '歯', 'px'];
 
 	// Load setting from json file
@@ -107,7 +107,6 @@ http://www.graphicartsunit.com/
 			fields[key].alignment = 'left';
 			fields[key].bounds = [0, 0, 50, 23];
 			fields[key].addEventListener('change', confirmText);
-			fields[key].addEventListener('change', previewRefresh);
 		}
 
 		buttons.refresh.addEventListener('click', previewRefresh);
@@ -123,7 +122,10 @@ http://www.graphicartsunit.com/
 				alert('0 以上の半角数値を入力してください');
 				target.text = settings[target.name];
 			}
-			settings[target.name] = Number(target.text);
+			for(var key in fields) {
+				settings[key] = Number(fields[key].text);
+			}
+			previewRefresh(event);
 		}
 
 		function previewRefresh(event) {
