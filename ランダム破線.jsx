@@ -18,7 +18,7 @@ http://www.graphicartsunit.com/
 
 	// Constant
 	const SCRIPT_TITLE = 'ランダム破線';
-	const SCRIPT_VERSION = '0.5.2';
+	const SCRIPT_VERSION = '0.5.3';
 	const UNIT_STRINGS = ['in', 'mm', 'pt', 'pc', 'cm', '歯', 'px'];
 
 	// Load setting from json file
@@ -107,6 +107,7 @@ http://www.graphicartsunit.com/
 			fields[key].alignment = 'left';
 			fields[key].bounds = [0, 0, 50, 23];
 			fields[key].addEventListener('change', confirmText);
+			fields[key].addEventListener('change', previewRefresh);
 		}
 
 		buttons.refresh.addEventListener('click', previewRefresh);
@@ -117,15 +118,12 @@ http://www.graphicartsunit.com/
 				target.text = 0;
 			} else if(!isNaN(Number(target.text)) && Number(target.text) > 1000) {
 				alert('1000 以上の値は指定できません');
-				target.text = settings[target.name];
+				target.text = settings[target.properties.name];
 			} else if(isNaN(Number(target.text)) || Number(target.text) < 0) {
 				alert('0 以上の半角数値を入力してください');
-				target.text = settings[target.name];
+				target.text = settings[target.properties.name];
 			}
-			for(var key in fields) {
-				settings[key] = Number(fields[key].text);
-			}
-			previewRefresh(event);
+			settings[target.properties.name] = Number(target.text);
 		}
 
 		function previewRefresh(event) {
